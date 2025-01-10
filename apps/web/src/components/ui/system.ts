@@ -3,7 +3,7 @@ import { createSystem, defineConfig, defaultConfig } from '@chakra-ui/react';
 // Add theme overrides here in the system config
 const config = defineConfig({
     // Customize the variable per project acronym/shorthand
-    cssVarsPrefix: 'knovu',
+    cssVarsPrefix: 'datem',
     theme: {
         tokens: {
             fonts: {

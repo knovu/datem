@@ -62,6 +62,6 @@ export const toEnv = (value: any): Env => {
     }
 };
 
-export const cx = (...classNames: string[]) => classNames.map((str) => `knovu-${str}`).join(' ');
+export const cx = (...classNames: string[]) => classNames.map((str) => `datem-${str}`).join(' ');
 
-export const dt = (testId: string) => `knovu-testId-${testId}`;
+export const dt = (testId: string) => `datem-testId-${testId}`;
