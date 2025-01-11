@@ -16,7 +16,8 @@ const SignInForm = () => {
             className={cx('sign-in-form')}
             data-testid={dt('sign-in-form')}
             variant={'elevated'}
-            w={'md'}>
+            w={'md'}
+            as="form">
             <Card.Header>
                 <Card.Title fontSize={'4xl'}>
                     <Heading>Sign in</Heading>

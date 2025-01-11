@@ -6,7 +6,8 @@ export enum Env {
 export interface IConfig {
     env: Env;
     isProduction: boolean;
-    port: number;
+    apiUrl: string;
+    gqlUrl: string;
 }
 
 export type id = string | number;
