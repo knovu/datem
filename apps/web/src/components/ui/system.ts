@@ -1,4 +1,4 @@
-import { createSystem, defineConfig, defaultConfig } from '@chakra-ui/react';
+import { createSystem, defineConfig, defaultConfig, defineRecipe } from '@chakra-ui/react';
 
 // Add theme overrides here in the system config
 const config = defineConfig({
@@ -10,6 +10,13 @@ const config = defineConfig({
                 heading: { value: 'Outfit Variable' },
                 body: { value: 'Outfit Variable' },
             },
+        },
+        recipes: {
+            button: defineRecipe({
+                base: {
+                    borderRadius: 'lg',
+                },
+            }),
         },
     },
 });
