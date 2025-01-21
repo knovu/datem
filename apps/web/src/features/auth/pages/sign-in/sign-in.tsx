@@ -1,7 +1,7 @@
 import { VStack } from '@chakra-ui/react';
 import { cx, dt } from '@src/utils';
-import SignInForm from './sign-in-form';
 import { Logo } from '@src/components';
+import SignInForm from './sign-in-form';
 
 const SignIn = () => {
     return (

@@ -17,7 +17,7 @@ const AuthLayout = () => {
 
             {/* Footer */}
             <HStack w="100%" justify={'space-between'} px={50} pb={12}>
-                <Text>&copy; {CURRENT_YEAR} Jess Graham. All Rights Reserved.</Text>
+                <Text>&copy; {CURRENT_YEAR} Jess Graham.</Text>
                 <Logo w={120} />
             </HStack>
         </VStack>
