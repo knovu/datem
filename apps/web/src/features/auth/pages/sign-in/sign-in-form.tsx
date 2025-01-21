@@ -1,4 +1,15 @@
-import { Button, Card, Heading, IconButton, Input, VStack } from '@chakra-ui/react';
+import {
+    Button,
+    Card,
+    Heading,
+    HStack,
+    IconButton,
+    Input,
+    Link,
+    Separator,
+    Text,
+    VStack,
+} from '@chakra-ui/react';
 import { Field, InputGroup } from '@src/components';
 import { cx, dt } from '@src/utils';
 import { useCallback, useState } from 'react';
@@ -19,7 +30,7 @@ const SignInForm = () => {
             w={'md'}
             as="form">
             <Card.Header>
-                <Card.Title fontSize={'4xl'}>
+                <Card.Title fontSize={'6xl'}>
                     <Heading>Sign in</Heading>
                 </Card.Title>
                 <Card.Description fontSize={'lg'}>
@@ -27,7 +38,7 @@ const SignInForm = () => {
                 </Card.Description>
             </Card.Header>
             <Card.Body>
-                <VStack>
+                <VStack align="start">
                     <Field label="Username">
                         <Input autoFocus size="xl" />
                     </Field>
@@ -43,15 +54,31 @@ const SignInForm = () => {
                                     onClick={() => handleOnTogglePassword(!showPassword)}
                                 />
                             }>
-                            <Input size="xl" type={showPassword ? 'text' : 'password'} />
+                            <Input type={showPassword ? 'text' : 'password'} size="xl" />
                         </InputGroup>
                     </Field>
+                    <Link>Forgot password?</Link>
                 </VStack>
             </Card.Body>
             <Card.Footer>
-                <Button w="100%" variant="solid" size="xl">
-                    Sign in
-                </Button>
+                <VStack w="100%" align="start">
+                    <Button w="100%" variant="solid" size="xl" colorPalette={'pink'}>
+                        Sign in
+                    </Button>
+
+                    <HStack w="100%">
+                        <Separator flex="1" />
+                        <Text flexShrink="0">or</Text>
+                        <Separator flex="1" />
+                    </HStack>
+
+                    <HStack fontSize="sm">
+                        <Text>Don't have an account?</Text>
+                        <Button variant="ghost" px={2} py={1} colorPalette={'pink'}>
+                            Sign up
+                        </Button>
+                    </HStack>
+                </VStack>
             </Card.Footer>
         </Card.Root>
     );
