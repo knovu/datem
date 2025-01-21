@@ -2,14 +2,14 @@
     "name": "root",
     "private": true,
     "scripts": {
-        "start": "pnpm run -r start",
         "build": "pnpm run -r build",
+        "check": "prettier --check .",
+        "clean": "pnpm run -r clean && rm -rf node_modules pnpm-lock.yaml && pnpm store prune && pnpm install",
         "dev:api": "pnpm --filter ./apps/api run dev",
         "dev:web": "pnpm --filter ./apps/web run dev",
         "dev": "pnpm run -r dev",
-        "clean": "pnpm run -r clean && rm -rf node_modules pnpm-lock.yaml && pnpm store prune && pnpm install",
         "format": "prettier --write .",
-        "check": "prettier --check .",
+        "start": "pnpm run -r start",
         "test": "pnpm run -r test"
     },
     "dependencies": {
