@@ -1,9 +1,8 @@
 import React from 'react';
+import { VStack } from '@chakra-ui/react';
 
-type Props = {};
-
-const SignInForm = (props: Props) => {
-    return <div>SignInForm</div>;
+const SignInForm = () => {
+    return <VStack as="form"></VStack>;
 };
 
 export default SignInForm;
