@@ -48,6 +48,7 @@ const SignInForm = () => {
                             flex="1"
                             endElement={
                                 <IconButton
+                                    h="100%"
                                     size="2xs"
                                     variant={'plain'}
                                     as={showPassword ? LuEye : LuEyeOff}
