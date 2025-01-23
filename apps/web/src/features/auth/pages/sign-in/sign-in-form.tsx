@@ -1,8 +1,6 @@
-import { Card, HStack, IconButton, Input, Link, Separator, Text, VStack } from '@chakra-ui/react';
-import { Button, Field, InputGroup } from '@src/components';
+import { Card, HStack, Input, Link, Separator, Text, VStack } from '@chakra-ui/react';
+import { Button, Field, PasswordInput } from '@src/components';
 import { cx, dt } from '@src/utils';
-import { useCallback, useState } from 'react';
-import { LuEye, LuEyeOff } from 'react-icons/lu';
 import useSignIn from './useSignIn';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -22,7 +20,6 @@ type FormValues = yup.InferType<typeof schema>;
 
 const SignInForm = () => {
     const { signIn, error } = useSignIn();
-    const [showPassword, setShowPassword] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const {
@@ -37,11 +34,7 @@ const SignInForm = () => {
         },
     });
 
-    const handleOnTogglePassword = useCallback((val: boolean) => {
-        setShowPassword(val);
-    }, []);
-
-    const onSubmit = handleSubmit((data) => {
+    const onFormSubmit = handleSubmit((data) => {
         const { username, password } = data;
 
         return signIn(username, password).then(() => {
@@ -52,7 +45,7 @@ const SignInForm = () => {
 
     return (
         <Card.Root
-            onSubmit={onSubmit}
+            onSubmit={onFormSubmit}
             className={cx('sign-in-form')}
             data-testid={dt('sign-in-form')}
             variant={'elevated'}
@@ -89,26 +82,7 @@ const SignInForm = () => {
                         required
                         invalid={!!errors.password}
                         errorText={errors.password?.message}>
-                        <InputGroup
-                            w={'100%'}
-                            flex="1"
-                            endElement={
-                                <IconButton
-                                    h="100%"
-                                    size="2xs"
-                                    variant={'plain'}
-                                    as={showPassword ? LuEye : LuEyeOff}
-                                    onClick={() => handleOnTogglePassword(!showPassword)}
-                                />
-                            }>
-                            <Input
-                                id="password"
-                                type={showPassword ? 'text' : 'password'}
-                                size="xl"
-                                autoComplete="current-password"
-                                {...register('password')}
-                            />
-                        </InputGroup>
+                        <PasswordInput id="password" size="xl" {...register('password')} />
                     </Field>
                     <Link>Forgot password?</Link>
                 </VStack>
