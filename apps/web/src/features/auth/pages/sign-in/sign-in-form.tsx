@@ -1,15 +1,5 @@
-import {
-    Button,
-    Card,
-    HStack,
-    IconButton,
-    Input,
-    Link,
-    Separator,
-    Text,
-    VStack,
-} from '@chakra-ui/react';
-import { Field, InputGroup } from '@src/components';
+import { Card, HStack, IconButton, Input, Link, Separator, Text, VStack } from '@chakra-ui/react';
+import { Button, Field, InputGroup } from '@src/components';
 import { cx, dt } from '@src/utils';
 import { useCallback, useState } from 'react';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
@@ -17,6 +7,7 @@ import useSignIn from './useSignIn';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router';
 
 const schema = yup.object().shape({
     username: yup
@@ -30,13 +21,14 @@ const schema = yup.object().shape({
 type FormValues = yup.InferType<typeof schema>;
 
 const SignInForm = () => {
-    const { signIn } = useSignIn();
+    const { signIn, error } = useSignIn();
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting, isValid },
     } = useForm<FormValues>({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -52,7 +44,10 @@ const SignInForm = () => {
     const onSubmit = handleSubmit((data) => {
         const { username, password } = data;
 
-        return signIn(username, password);
+        return signIn(username, password).then(() => {
+            // Do something with the tokens here
+            navigate('/app');
+        });
     });
 
     return (
@@ -70,9 +65,15 @@ const SignInForm = () => {
             </Card.Header>
             <Card.Body>
                 <VStack align="start">
+                    {error && (
+                        <Text alignSelf={'center'} color="red.500" fontWeight={'bold'}>
+                            {error.message}
+                        </Text>
+                    )}
                     <Field
                         label="Username"
                         required
+                        disabled={isSubmitting}
                         invalid={!!errors.username}
                         errorText={errors.username?.message}>
                         <Input
@@ -114,7 +115,15 @@ const SignInForm = () => {
             </Card.Body>
             <Card.Footer>
                 <VStack w="100%" align="start">
-                    <Button type="submit" w="100%" variant="solid" size="xl" colorPalette={'pink'}>
+                    <Button
+                        disabled={!isValid}
+                        loading={isSubmitting}
+                        loadingText="Signing you in..."
+                        type="submit"
+                        w="100%"
+                        variant="solid"
+                        size="xl"
+                        colorPalette={'pink'}>
                         Sign in
                     </Button>
 
