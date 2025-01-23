@@ -39,7 +39,7 @@ const SignInForm = () => {
 
         return signIn(username, password).then(() => {
             // Do something with the tokens here
-            navigate('/app');
+            navigate('/app/dashboard');
         });
     });
 
