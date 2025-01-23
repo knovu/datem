@@ -1,4 +1,4 @@
-import { toEnv, toPort } from '@template/utils';
+import { toEnv, toPort } from '..';
 import { Env } from '../../@types';
 
 describe('toPort', () => {

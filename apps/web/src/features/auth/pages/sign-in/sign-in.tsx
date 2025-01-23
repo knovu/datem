@@ -11,7 +11,7 @@ const SignIn = () => {
             h="100%"
             justify={'center'}
             spaceY={5}>
-            <Logo w={300} />
+            <Logo w={{ base: 200, sm: 200, md: 250 }} />
             <SignInForm />
         </VStack>
     );

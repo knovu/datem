@@ -1,7 +1,6 @@
 import {
     Button,
     Card,
-    Heading,
     HStack,
     IconButton,
     Input,
@@ -14,35 +13,81 @@ import { Field, InputGroup } from '@src/components';
 import { cx, dt } from '@src/utils';
 import { useCallback, useState } from 'react';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
+import useSignIn from './useSignIn';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const schema = yup.object().shape({
+    username: yup
+        .string()
+        .min(1, 'Username is required')
+        .email('Username must be a valid email')
+        .required(),
+    password: yup.string().min(1, 'Password is required').required(),
+});
+
+type FormValues = yup.InferType<typeof schema>;
 
 const SignInForm = () => {
+    const { signIn } = useSignIn();
     const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<FormValues>({
+        resolver: yupResolver(schema),
+        defaultValues: {
+            username: '',
+            password: '',
+        },
+    });
 
     const handleOnTogglePassword = useCallback((val: boolean) => {
         setShowPassword(val);
     }, []);
 
+    const onSubmit = handleSubmit((data) => {
+        const { username, password } = data;
+
+        return signIn(username, password);
+    });
+
     return (
         <Card.Root
+            onSubmit={onSubmit}
             className={cx('sign-in-form')}
             data-testid={dt('sign-in-form')}
             variant={'elevated'}
-            w={'md'}
             as="form">
             <Card.Header>
-                <Card.Title fontSize={'6xl'}>
-                    <Heading>Sign in</Heading>
-                </Card.Title>
+                <Card.Title fontSize={'2xl'}>Sign in</Card.Title>
                 <Card.Description fontSize={'lg'}>
                     Please enter your credential below to sign in.
                 </Card.Description>
             </Card.Header>
             <Card.Body>
                 <VStack align="start">
-                    <Field label="Username">
-                        <Input autoFocus size="xl" />
+                    <Field
+                        label="Username"
+                        required
+                        invalid={!!errors.username}
+                        errorText={errors.username?.message}>
+                        <Input
+                            id="username"
+                            autoFocus
+                            size="xl"
+                            autoComplete="username"
+                            {...register('username')}
+                        />
                     </Field>
-                    <Field label="Password">
+                    <Field
+                        label="Password"
+                        required
+                        invalid={!!errors.password}
+                        errorText={errors.password?.message}>
                         <InputGroup
                             w={'100%'}
                             flex="1"
@@ -55,7 +100,13 @@ const SignInForm = () => {
                                     onClick={() => handleOnTogglePassword(!showPassword)}
                                 />
                             }>
-                            <Input type={showPassword ? 'text' : 'password'} size="xl" />
+                            <Input
+                                id="password"
+                                type={showPassword ? 'text' : 'password'}
+                                size="xl"
+                                autoComplete="current-password"
+                                {...register('password')}
+                            />
                         </InputGroup>
                     </Field>
                     <Link>Forgot password?</Link>
@@ -63,7 +114,7 @@ const SignInForm = () => {
             </Card.Body>
             <Card.Footer>
                 <VStack w="100%" align="start">
-                    <Button w="100%" variant="solid" size="xl" colorPalette={'pink'}>
+                    <Button type="submit" w="100%" variant="solid" size="xl" colorPalette={'pink'}>
                         Sign in
                     </Button>
 
