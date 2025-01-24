@@ -1,17 +1,19 @@
 import type { ButtonProps as ChakraButtonProps } from '@chakra-ui/react';
 import { AbsoluteCenter, Button as ChakraButton, Span, Spinner } from '@chakra-ui/react';
 import * as React from 'react';
+import { Tooltip } from './tooltip';
 
 interface ButtonLoadingProps {
     loading?: boolean;
     loadingText?: React.ReactNode;
+    tooltip?: string;
 }
 
 export interface ButtonProps extends ChakraButtonProps, ButtonLoadingProps {}
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(props, ref) {
-    const { loading, disabled, loadingText, children, ...rest } = props;
-    return (
+    const { loading, disabled, loadingText, children, tooltip, ...rest } = props;
+    const button = (
         <ChakraButton disabled={loading || disabled} ref={ref} {...rest}>
             {loading && !loadingText ? (
                 <>
@@ -30,4 +32,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
             )}
         </ChakraButton>
     );
+
+    if (tooltip) {
+        return <Tooltip content={tooltip}>{button}</Tooltip>;
+    }
+
+    return button;
 });

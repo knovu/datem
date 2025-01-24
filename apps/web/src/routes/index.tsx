@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from 'react-router';
 import { App, Auth } from '@src/features';
 import { Dashboard } from '@src/features/app/pages';
 import {
-    Email,
+    Username,
     FirstName,
     LastName,
     Organization,
@@ -20,8 +20,8 @@ const AppRoutes = () => {
                 <Route index element={<Navigate to="sign-in" />} />
                 <Route path={'sign-in'} element={<SignIn />} />
                 <Route path={'sign-up'} element={<SignUp />}>
-                    <Route index element={<Navigate to="email" />} />
-                    <Route path={'email'} element={<Email />} />
+                    <Route index element={<Navigate to="username" />} />
+                    <Route path={'username'} element={<Username />} />
                     <Route path={'first-name'} element={<FirstName />} />
                     <Route path={'last-name'} element={<LastName />} />
                     <Route path={'phone-number'} element={<PhoneNumber />} />

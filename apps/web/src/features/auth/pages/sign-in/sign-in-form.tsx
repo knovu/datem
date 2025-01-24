@@ -4,8 +4,8 @@ import { cx, dt } from '@src/utils';
 import useSignIn from './useSignIn';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { useNavigate } from 'react-router';
+import * as yup from 'yup';
 
 const schema = yup.object().shape({
     username: yup
@@ -114,7 +114,7 @@ const SignInForm = () => {
                             px={2}
                             py={1}
                             colorPalette={'pink'}
-                            onClick={() => navigate('/auth/sign-up/email')}>
+                            onClick={() => navigate('/auth/sign-up/username')}>
                             Sign up
                         </Button>
                     </HStack>

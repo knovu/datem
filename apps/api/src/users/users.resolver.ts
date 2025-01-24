@@ -11,6 +11,7 @@ import {
 } from './dto';
 import { NotFoundException } from '@nestjs/common';
 import { EXCEPTION_CAUSE } from '@src/constants';
+import { Public } from '@src/decorators';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -36,6 +37,18 @@ export class UsersResolver {
         }
 
         return user;
+    }
+
+    @Public()
+    @Query(() => Boolean)
+    public async usernameExists(@Args('username') username: string): Promise<boolean> {
+        const user = await this.usersService.findOneByEmail(username);
+
+        if (user) {
+            return true;
+        }
+
+        return false;
     }
 
     @Query(() => UserConnection)

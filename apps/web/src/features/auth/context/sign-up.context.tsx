@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 
 export interface SignUpContextState {
-    email: string;
+    username: string;
     firstName: string;
     lastName: string;
     phoneNumber: string;
@@ -14,21 +14,21 @@ export interface SignUpContextReducers {
 }
 
 const DEFAULT_CONTEXT: SignUpContextState = {
-    email: localStorage.getItem('email') || '',
+    username: localStorage.getItem('username') || '',
     firstName: localStorage.getItem('firstName') || '',
     lastName: localStorage.getItem('lastName') || '',
     phoneNumber: localStorage.getItem('phoneNumber') || '',
     organization: localStorage.getItem('organization') || '',
 };
 
-export const SignUpContext = createContext<SignUpContextState | SignUpContextReducers>({
+export const SignUpContext = createContext<SignUpContextState & SignUpContextReducers>({
     ...DEFAULT_CONTEXT,
     onUpdateState: () => null,
     onResetState: () => null,
 });
 
 export const useSignUp = () => {
-    const ctx = useContext(SignUpContext);
+    const ctx = useContext<SignUpContextState & SignUpContextReducers>(SignUpContext);
 
     if (!ctx) {
         throw new Error(
@@ -46,16 +46,16 @@ export const SignUpProvider = (props: SignUpProviderProps) => {
     const { children } = props;
     const [state, setState] = useState<SignUpContextState>(DEFAULT_CONTEXT);
 
-    const onUpdateState = useCallback(
-        (key: keyof SignUpContextState, value: string) => {
-            localStorage.localStorage.setItem(key, value);
-            setState({ ...state, email: value });
-        },
-        [state],
-    );
+    const onUpdateState = useCallback((key: keyof SignUpContextState, value: string) => {
+        localStorage.setItem(key, value);
+        setState((prev) => ({
+            ...prev,
+            [key]: value,
+        }));
+    }, []);
 
     const onResetState = useCallback(() => {
-        localStorage.removeItem('email');
+        localStorage.removeItem('username');
         localStorage.removeItem('firstName');
         localStorage.removeItem('lastName');
         localStorage.removeItem('phoneNumber');

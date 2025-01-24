@@ -1,8 +1,8 @@
-import Email from './email';
+import Username from './username';
 import FirstName from './first-name';
 import LastName from './last-name';
 import Organization from './organization';
 import Password from './password';
 import PhoneNumber from './phone-number';
 
-export { Email, FirstName, LastName, Organization, Password, PhoneNumber };
+export { Username, FirstName, LastName, Organization, Password, PhoneNumber };

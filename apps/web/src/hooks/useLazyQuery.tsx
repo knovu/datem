@@ -7,6 +7,7 @@ import {
     OperationVariables,
     DocumentNode,
     TypedDocumentNode,
+    LazyQueryExecFunction,
 } from '@apollo/client';
 import { toaster } from '@src/components';
 
@@ -24,7 +25,7 @@ export function useLazyQuery<
 >(
     query: DocumentNode | TypedDocumentNode<TData, TVariables>,
     options?: LazyQueryHookOptions<TData, TVariables>,
-): [(variables?: TVariables) => void, QueryResult<TData, TVariables>] {
+): [LazyQueryExecFunction<TData, TVariables>, QueryResult<TData, TVariables>] {
     const [lazyQueryFunction, result] = useApolloLazyQuery<TData, TVariables>(query, {
         ...options,
         onError: (error) => {

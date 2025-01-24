@@ -4,7 +4,9 @@ import LogoPNG from '../../assets/logo.png';
 export type LogoProps = Omit<ImageProps, 'src' | 'alt'>;
 
 const Logo = (props: LogoProps) => {
-    return <Image src={LogoPNG} alt={'Logo'} {...props} />;
+    const { ...rest } = props;
+
+    return <Image src={LogoPNG} alt={'Logo'} {...rest} />;
 };
 
 export default Logo;
