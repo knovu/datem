@@ -1,3 +1,4 @@
+import { PROGRESS_USERNAME } from '@src/constants';
 import React, { createContext, useCallback, useContext, useState } from 'react';
 
 export interface SignUpContextState {
@@ -19,15 +20,19 @@ const DEFAULT_CONTEXT: SignUpContextState = {
     firstName: localStorage.getItem('firstName') || '',
     lastName: localStorage.getItem('lastName') || '',
     phoneNumber: localStorage.getItem('phoneNumber') || '',
-    organization: localStorage.getItem('organization') || '',
-    progress: 16.67,
+    organization:
+        localStorage.getItem('organization') ||
+        (localStorage.getItem('firstName') != undefined &&
+            localStorage.getItem('firstName') + "'s Org") ||
+        '',
+    progress: PROGRESS_USERNAME,
 };
 
 export const SignUpContext = createContext<SignUpContextState & SignUpContextReducers>({
     ...DEFAULT_CONTEXT,
     onUpdateState: () => null,
     onResetState: () => null,
-    progress: 16.67,
+    progress: PROGRESS_USERNAME,
 });
 
 export const useSignUp = () => {
@@ -55,10 +60,17 @@ export const SignUpProvider = (props: SignUpProviderProps) => {
             localStorage.setItem(key, valueToUpdate);
         }
 
-        setState((prev) => ({
-            ...prev,
-            [key]: value,
-        }));
+        setState((prev) => {
+            // We want to default set the organization for the user for quality of life
+            const newState: SignUpContextState = { ...prev, [key]: value };
+
+            if (key === 'firstName' && newState.organization === '') {
+                newState.organization = value + "'s Org";
+                localStorage.setItem('organization', newState.organization);
+            }
+
+            return newState;
+        });
     }, []);
 
     const onResetState = useCallback(() => {
@@ -73,7 +85,7 @@ export const SignUpProvider = (props: SignUpProviderProps) => {
             lastName: '',
             phoneNumber: '',
             organization: '',
-            progress: 16.67,
+            progress: PROGRESS_USERNAME,
         });
     }, []);
 

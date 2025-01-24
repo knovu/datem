@@ -1,12 +1,13 @@
 import * as yup from 'yup';
-import { Card, Icon, Input, VStack } from '@chakra-ui/react';
+import { Card, HStack, Icon, Input, VStack } from '@chakra-ui/react';
 import { cx, dt } from '@src/utils';
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSignUp } from '@src/features/auth/context';
 import { Button, Field } from '@src/components';
-import { LuArrowLeft } from 'react-icons/lu';
+import { LuArrowLeft, LuX } from 'react-icons/lu';
+import { PROGRESS_FIRST_NAME, PROGRESS_PHONE_NUMBER } from '@src/constants';
 
 const schema = yup.object().shape({
     lastName: yup.string().min(1, 'Last name is required').required(),
@@ -32,7 +33,7 @@ const LastName = () => {
     const onFormSubmit = handleSubmit((data) => {
         const { lastName } = data;
         ctx.onUpdateState('lastName', lastName);
-        ctx.onUpdateState('progress', 66.67);
+        ctx.onUpdateState('progress', PROGRESS_PHONE_NUMBER);
         nav('/auth/sign-up/phone-number');
     });
 
@@ -44,14 +45,25 @@ const LastName = () => {
             w="100%"
             spaceY={5}>
             <VStack align="start" spaceY={5}>
-                <Button
-                    onClick={() => {
-                        ctx.onUpdateState('progress', 50);
-                        nav('/auth/sign-up/first-name');
-                    }}>
-                    <Icon as={LuArrowLeft} />
-                    Back
-                </Button>
+                <HStack>
+                    <Button
+                        onClick={() => {
+                            ctx.onUpdateState('progress', PROGRESS_FIRST_NAME);
+                            nav('/auth/sign-up/first-name');
+                        }}>
+                        <Icon as={LuArrowLeft} />
+                        Back
+                    </Button>
+                    <Button
+                        colorPalette={'pink'}
+                        onClick={() => {
+                            ctx.onResetState();
+                            nav('/auth/sign-in');
+                        }}>
+                        <Icon as={LuX} />
+                        Cancel
+                    </Button>
+                </HStack>
                 <Card.Root
                     onSubmit={onFormSubmit}
                     className={cx('last-name-form')}

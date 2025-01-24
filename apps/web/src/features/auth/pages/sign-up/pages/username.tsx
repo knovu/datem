@@ -8,6 +8,7 @@ import { useSignUp } from '@src/features/auth/context';
 import { Button, Field } from '@src/components';
 import { toLower } from 'lodash';
 import useCheckUsername from './useCheckUsername';
+import { PROGRESS_FIRST_NAME } from '@src/constants';
 
 const schema = yup.object().shape({
     username: yup
@@ -48,7 +49,7 @@ const Email = () => {
                 if (usernameExists === false) {
                     nav('/auth/sign-up/first-name');
                     ctx.onUpdateState('username', lowerCaseUsername);
-                    ctx.onUpdateState('progress', 33.33);
+                    ctx.onUpdateState('progress', PROGRESS_FIRST_NAME);
                 } else {
                     setError('username', {
                         message: 'Username already exists',

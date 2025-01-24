@@ -7,18 +7,20 @@ import { PasswordInput } from './password-input';
 import { Tooltip } from './tooltip';
 import { ProgressBar, ProgressRoot } from './progress';
 import { ToggleTip } from './toggle-tip';
+import { PhoneInput } from './phone-input';
 
 export type { ThemeProviderProps } from './theme-provider';
 
 export {
-    ThemeProvider,
-    toaster,
     Button,
     Field,
     InputGroup,
     PasswordInput,
-    Tooltip,
-    ProgressRoot,
+    PhoneInput,
     ProgressBar,
+    ProgressRoot,
+    ThemeProvider,
+    toaster,
     ToggleTip,
+    Tooltip,
 };
