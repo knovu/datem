@@ -6,10 +6,11 @@ export interface SignUpContextState {
     lastName: string;
     phoneNumber: string;
     organization: string;
+    progress: number;
 }
 
 export interface SignUpContextReducers {
-    onUpdateState: (key: keyof SignUpContextState, value: string) => void;
+    onUpdateState: (key: keyof SignUpContextState, value: string | number) => void;
     onResetState: () => void;
 }
 
@@ -19,12 +20,14 @@ const DEFAULT_CONTEXT: SignUpContextState = {
     lastName: localStorage.getItem('lastName') || '',
     phoneNumber: localStorage.getItem('phoneNumber') || '',
     organization: localStorage.getItem('organization') || '',
+    progress: 16.67,
 };
 
 export const SignUpContext = createContext<SignUpContextState & SignUpContextReducers>({
     ...DEFAULT_CONTEXT,
     onUpdateState: () => null,
     onResetState: () => null,
+    progress: 16.67,
 });
 
 export const useSignUp = () => {
@@ -46,8 +49,12 @@ export const SignUpProvider = (props: SignUpProviderProps) => {
     const { children } = props;
     const [state, setState] = useState<SignUpContextState>(DEFAULT_CONTEXT);
 
-    const onUpdateState = useCallback((key: keyof SignUpContextState, value: string) => {
-        localStorage.setItem(key, value);
+    const onUpdateState = useCallback((key: keyof SignUpContextState, value: string | number) => {
+        if (key !== 'progress') {
+            const valueToUpdate = value as string;
+            localStorage.setItem(key, valueToUpdate);
+        }
+
         setState((prev) => ({
             ...prev,
             [key]: value,
@@ -60,6 +67,14 @@ export const SignUpProvider = (props: SignUpProviderProps) => {
         localStorage.removeItem('lastName');
         localStorage.removeItem('phoneNumber');
         localStorage.removeItem('organization');
+        setState({
+            username: '',
+            firstName: '',
+            lastName: '',
+            phoneNumber: '',
+            organization: '',
+            progress: 16.67,
+        });
     }, []);
 
     return (

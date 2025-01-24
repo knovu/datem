@@ -1,8 +1,8 @@
 import { HStack, Icon, IconButton, Spacer, VStack } from '@chakra-ui/react';
 import { cx, dt } from '@src/utils';
 import { Outlet, useNavigate } from 'react-router';
-import { SignUpProvider } from '../../context';
-import { LogoIcon } from '@src/components';
+import { SignUpContext, SignUpProvider } from '../../context';
+import { LogoIcon, ProgressBar, ProgressRoot } from '@src/components';
 
 const SignUp = () => {
     const nav = useNavigate();
@@ -15,8 +15,14 @@ const SignUp = () => {
                 h="100%"
                 justify={'center'}
                 spaceY={5}
-                w="100%"
-                pt={5}>
+                w="100%">
+                <SignUpContext.Consumer>
+                    {(val) => (
+                        <ProgressRoot w="100%" value={val.progress} size="xs" colorPalette={'pink'}>
+                            <ProgressBar />
+                        </ProgressRoot>
+                    )}
+                </SignUpContext.Consumer>
                 <HStack w="100%">
                     <IconButton
                         onClick={() => nav('/auth/sign-in')}

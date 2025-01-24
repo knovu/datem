@@ -39,7 +39,6 @@ const Email = () => {
     const onFormSubmit = handleSubmit((data) => {
         const { username } = data;
         const lowerCaseUsername = toLower(username);
-        ctx.onUpdateState('username', lowerCaseUsername);
 
         // Check if email exists
         return checkUsername(lowerCaseUsername).then((res) => {
@@ -48,6 +47,8 @@ const Email = () => {
 
                 if (usernameExists === false) {
                     nav('/auth/sign-up/first-name');
+                    ctx.onUpdateState('username', lowerCaseUsername);
+                    ctx.onUpdateState('progress', 33.33);
                 } else {
                     setError('username', {
                         message: 'Username already exists',
@@ -68,7 +69,7 @@ const Email = () => {
                 onSubmit={onFormSubmit}
                 className={cx('sign-in-form')}
                 data-testid={dt('sign-in-form')}
-                variant={'subtle'}
+                variant={'elevated'}
                 as="form">
                 <Card.Header>
                     <VStack>
