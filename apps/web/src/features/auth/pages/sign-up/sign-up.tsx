@@ -18,19 +18,28 @@ const SignUp = () => {
                 w="100%">
                 <SignUpContext.Consumer>
                     {(val) => (
-                        <ProgressRoot w="100%" value={val.progress} size="xs" colorPalette={'pink'}>
-                            <ProgressBar />
-                        </ProgressRoot>
+                        <>
+                            <ProgressRoot
+                                w="100%"
+                                value={val.progress}
+                                size="xs"
+                                colorPalette={'pink'}>
+                                <ProgressBar />
+                            </ProgressRoot>
+                            <HStack w="100%">
+                                <IconButton
+                                    onClick={() => {
+                                        val.onResetState();
+                                        nav('/auth/sign-in');
+                                    }}
+                                    variant="plain"
+                                    _hover={{ opacity: 0.7 }}>
+                                    <Icon as={LogoIcon} w={12} />
+                                </IconButton>
+                            </HStack>
+                        </>
                     )}
                 </SignUpContext.Consumer>
-                <HStack w="100%">
-                    <IconButton
-                        onClick={() => nav('/auth/sign-in')}
-                        variant="plain"
-                        _hover={{ opacity: 0.7 }}>
-                        <Icon as={LogoIcon} w={12} />
-                    </IconButton>
-                </HStack>
 
                 <Spacer flex={1} />
 

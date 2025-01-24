@@ -67,8 +67,8 @@ const Email = () => {
             spaceY={5}>
             <Card.Root
                 onSubmit={onFormSubmit}
-                className={cx('sign-in-form')}
-                data-testid={dt('sign-in-form')}
+                className={cx('username-form')}
+                data-testid={dt('username-form')}
                 variant={'elevated'}
                 as="form">
                 <Card.Header>
