@@ -1,4 +1,4 @@
-import { HStack, Text, VStack } from '@chakra-ui/react';
+import { HStack, Spacer, Text, VStack } from '@chakra-ui/react';
 import { Logo } from '@src/components';
 import { CURRENT_YEAR } from '@src/constants';
 import { cx, dt } from '@src/utils';
@@ -14,6 +14,8 @@ const AuthLayout = () => {
             overflowX={'hidden'}
             justifyContent={'center'}>
             <Outlet />
+
+            <Spacer flex={1} />
 
             {/* Footer */}
             <HStack w="100%" justify={'space-between'} px={{ base: 4, sm: 12, md: 50 }} pb={5}>

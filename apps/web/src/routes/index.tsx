@@ -1,7 +1,16 @@
 import { Navigate, Route, Routes } from 'react-router';
 import { App, Auth } from '@src/features';
 import { Dashboard } from '@src/features/app/pages';
-import { SignIn, SignUp } from '@src/features/auth/pages';
+import {
+    Email,
+    FirstName,
+    LastName,
+    Organization,
+    Password,
+    PhoneNumber,
+    SignIn,
+    SignUp,
+} from '@src/features/auth/pages';
 
 const AppRoutes = () => {
     return (
@@ -10,7 +19,15 @@ const AppRoutes = () => {
             <Route path={'auth'} element={<Auth />}>
                 <Route index element={<Navigate to="sign-in" />} />
                 <Route path={'sign-in'} element={<SignIn />} />
-                <Route path={'sign-up'} element={<SignUp />} />
+                <Route path={'sign-up'} element={<SignUp />}>
+                    <Route index element={<Navigate to="email" />} />
+                    <Route path={'email'} element={<Email />} />
+                    <Route path={'first-name'} element={<FirstName />} />
+                    <Route path={'last-name'} element={<LastName />} />
+                    <Route path={'phone-number'} element={<PhoneNumber />} />
+                    <Route path={'organization'} element={<Organization />} />
+                    <Route path={'password'} element={<Password />} />
+                </Route>
             </Route>
 
             {/* Protected routes */}

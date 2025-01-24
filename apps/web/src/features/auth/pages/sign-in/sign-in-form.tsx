@@ -109,7 +109,12 @@ const SignInForm = () => {
 
                     <HStack fontSize="sm">
                         <Text>Don't have an account?</Text>
-                        <Button variant="ghost" px={2} py={1} colorPalette={'pink'}>
+                        <Button
+                            variant="ghost"
+                            px={2}
+                            py={1}
+                            colorPalette={'pink'}
+                            onClick={() => navigate('/auth/sign-up/email')}>
                             Sign up
                         </Button>
                     </HStack>
