@@ -8,12 +8,12 @@ import { Repository } from 'typeorm';
 import { RefreshToken, User } from '@src/models';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from '@src/shared';
-import { RefreshTokenPayload } from './dto';
 import { EXCEPTION_CAUSE } from '@src/constants';
 import { UsersService } from '@src/users';
+import { RefreshTokenPayload } from './token.dto';
 
 @Injectable()
-export class TokensService extends BaseService<RefreshToken> {
+export class TokenService extends BaseService<RefreshToken> {
     constructor(
         @InjectRepository(RefreshToken)
         refreshTokenModel: Repository<RefreshToken>,

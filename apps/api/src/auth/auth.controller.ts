@@ -8,28 +8,24 @@ import {
     UnauthorizedException,
     UseGuards,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import {
-    AuthPayload,
-    RefreshTokenDto,
-    RefreshTokenPayload,
-    SignInDto,
-    SignOutDto,
-    SignOutPayload,
-} from './dto';
 import { DeviceInfo, id } from '@src/@types';
 import { CurrentUser, Device, Public } from '@src/decorators';
-import { LocalAuthGuard } from './guards';
 import { User } from '@src/models';
 import { ApiBearerAuth, ApiBody, ApiResponse } from '@nestjs/swagger';
-import { TokensService } from './tokens.service';
+import { LoginDto, LoginPayload, LoginService } from './login';
+import { LogoutDto, LogoutPayload, LogoutService } from './logout';
+import { RegisterService } from './register';
+import { LocalAuthGuard } from './common';
+import { RefreshTokenDto, RefreshTokenPayload, TokenService } from './token';
 
 @ApiBearerAuth()
 @Controller('auth')
 export class AuthController {
     constructor(
-        private readonly authService: AuthService,
-        private readonly tokensService: TokensService,
+        private readonly loginService: LoginService,
+        private readonly logoutService: LogoutService,
+        private readonly registerService: RegisterService,
+        private readonly tokenService: TokenService,
     ) {}
 
     @Public()
@@ -38,14 +34,14 @@ export class AuthController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: UnauthorizedException })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: BadRequestException })
     @ApiBody({
-        type: SignInDto,
+        type: LoginDto,
     })
     @Post('login')
-    public async signIn(
+    public async login(
         @CurrentUser() user: User,
         @Device() device: DeviceInfo,
-    ): Promise<AuthPayload> {
-        return await this.authService.signIn(user.id, user.email, device);
+    ): Promise<LoginPayload> {
+        return await this.loginService.login(user.id, user.email, device);
     }
 
     @Public()
@@ -59,22 +55,22 @@ export class AuthController {
     public async refresh(@Body() body: RefreshTokenDto): Promise<RefreshTokenPayload> {
         const { refreshToken } = body;
 
-        return await this.tokensService.generateAccessTokenFromRefreshToken(refreshToken);
+        return await this.tokenService.generateAccessTokenFromRefreshToken(refreshToken);
     }
 
     @HttpCode(HttpStatus.OK)
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: UnauthorizedException })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: BadRequestException })
     @ApiBody({
-        type: SignOutDto,
+        type: LogoutDto,
     })
     @Post('logout')
     public async signOut(
         @CurrentUser('id') id: id,
-        @Body() body: SignOutDto,
-    ): Promise<SignOutPayload> {
+        @Body() body: LogoutDto,
+    ): Promise<LogoutPayload> {
         const { refreshToken } = body;
 
-        return await this.authService.signOut(id, refreshToken);
+        return await this.logoutService.logout(id, refreshToken);
     }
 }

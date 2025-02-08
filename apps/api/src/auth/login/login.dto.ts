@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
 
 @InputType()
-export class SignInDto {
+export class LoginDto {
     @Field({
         description: 'The email address of the user.',
     })
@@ -34,7 +34,7 @@ export class SignInDto {
 }
 
 @ObjectType()
-export class AuthPayload {
+export class LoginPayload {
     @Field({
         description:
             'A token that is sent to the resource server to access the protected resources of the user.',

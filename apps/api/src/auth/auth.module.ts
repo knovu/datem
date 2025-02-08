@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthResolver } from './auth.resolver';
-import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { TokensService } from './tokens.service';
 import { RefreshToken } from '@src/models';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './strategies';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { JwtStrategy, LocalStrategy } from './common';
+import { LoginService } from './login';
+import { LogoutService } from './logout';
+import { RegisterService } from './register';
+import { TokenService } from './token';
 
 @Module({
     imports: [
@@ -18,16 +19,24 @@ import { JwtStrategy } from './strategies/jwt.strategy';
         UsersModule,
         PassportModule,
         JwtModule.registerAsync({
+            inject: [ConfigService],
             useFactory: async (configService: ConfigService) => ({
                 secret: configService.get<string>('jwt.secret'),
                 signOptions: {
                     expiresIn: configService.get<string>('jwt.expiresIn'),
                 },
             }),
-            inject: [ConfigService], // Injects ConfigService
         }),
     ],
     controllers: [AuthController],
-    providers: [AuthResolver, AuthService, LocalStrategy, JwtStrategy, TokensService],
+    providers: [
+        LocalStrategy,
+        JwtStrategy,
+        AuthResolver,
+        LoginService,
+        LogoutService,
+        RegisterService,
+        TokenService,
+    ],
 })
 export class AuthModule {}
