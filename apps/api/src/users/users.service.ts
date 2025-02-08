@@ -11,7 +11,7 @@ import {
 } from './dto';
 import { base64DecryptCursor, validatePaginationArgs } from '@src/utils';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EXCEPTION_CAUSE } from '@src/constants';
+import { ExceptionCause } from '@src/constants';
 import bcrypt from 'bcryptjs';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class UsersService {
 
         if (existingUser) {
             throw new BadRequestException('User already exists with this email.', {
-                cause: EXCEPTION_CAUSE.USERNAME_ALREADY_EXISTS,
+                cause: ExceptionCause.USERNAME_ALREADY_EXISTS,
             });
         }
 
@@ -59,7 +59,7 @@ export class UsersService {
 
             if (!user) {
                 throw new NotFoundException('Created user with the provided id not found.', {
-                    cause: EXCEPTION_CAUSE.RESOURCE_NOT_FOUND,
+                    cause: ExceptionCause.RESOURCE_NOT_FOUND,
                 });
             }
 
@@ -170,7 +170,7 @@ export class UsersService {
 
         if (!user) {
             throw new NotFoundException('User with the provided id not found.', {
-                cause: EXCEPTION_CAUSE.RESOURCE_NOT_FOUND,
+                cause: ExceptionCause.RESOURCE_NOT_FOUND,
             });
         }
 

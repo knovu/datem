@@ -10,7 +10,7 @@ import {
     UserInput,
 } from './dto';
 import { NotFoundException } from '@nestjs/common';
-import { EXCEPTION_CAUSE } from '@src/constants';
+import { ExceptionCause } from '@src/constants';
 import { Public } from '@src/decorators';
 
 @Resolver(() => User)
@@ -32,7 +32,7 @@ export class UsersResolver {
 
         if (!user) {
             throw new NotFoundException('User with the provided id not found.', {
-                cause: EXCEPTION_CAUSE.RESOURCE_NOT_FOUND,
+                cause: ExceptionCause.RESOURCE_NOT_FOUND,
             });
         }
 

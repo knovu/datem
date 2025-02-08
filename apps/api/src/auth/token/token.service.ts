@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { RefreshToken, User } from '@src/models';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from '@src/shared';
-import { EXCEPTION_CAUSE } from '@src/constants';
+import { ExceptionCause } from '@src/constants';
 import { UsersService } from '@src/users';
 import { RefreshTokenPayload } from './token.dto';
 
@@ -44,7 +44,7 @@ export class TokenService extends BaseService<RefreshToken> {
 
         if (!token || token.revoked) {
             throw new UnauthorizedException('Invalid token.', {
-                cause: EXCEPTION_CAUSE.INVALID_TOKEN,
+                cause: ExceptionCause.INVALID_TOKEN,
             });
         }
 

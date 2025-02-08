@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { BaseModel } from './base-model';
 import { NotFoundException } from '@nestjs/common';
-import { EXCEPTION_CAUSE } from '@src/constants';
+import { ExceptionCause } from '@src/constants';
 
 export abstract class BaseService<TEntity extends BaseModel> {
     protected model: Repository<TEntity>;
@@ -47,7 +47,7 @@ export abstract class BaseService<TEntity extends BaseModel> {
 
         if (!item) {
             throw new NotFoundException('Resource not found to update.', {
-                cause: EXCEPTION_CAUSE.RESOURCE_NOT_FOUND,
+                cause: ExceptionCause.RESOURCE_NOT_FOUND,
             });
         }
 
@@ -62,7 +62,7 @@ export abstract class BaseService<TEntity extends BaseModel> {
 
         if (!item) {
             throw new NotFoundException('Resource not found to update.', {
-                cause: EXCEPTION_CAUSE.RESOURCE_NOT_FOUND,
+                cause: ExceptionCause.RESOURCE_NOT_FOUND,
             });
         }
 
@@ -76,7 +76,7 @@ export abstract class BaseService<TEntity extends BaseModel> {
 
         if (!item) {
             throw new NotFoundException('Resource not found to delete.', {
-                cause: EXCEPTION_CAUSE.RESOURCE_NOT_FOUND,
+                cause: ExceptionCause.RESOURCE_NOT_FOUND,
             });
         }
 
@@ -88,7 +88,7 @@ export abstract class BaseService<TEntity extends BaseModel> {
 
         if (!item) {
             throw new NotFoundException('Resource not found to delete.', {
-                cause: EXCEPTION_CAUSE.RESOURCE_NOT_FOUND,
+                cause: ExceptionCause.RESOURCE_NOT_FOUND,
             });
         }
 

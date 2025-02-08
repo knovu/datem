@@ -1,43 +1,39 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import {
-    AuthPayload,
-    RefreshTokenDto,
-    RefreshTokenPayload,
-    SignInDto,
-    SignOutDto,
-    SignOutPayload,
-} from './dto';
-import { AuthService } from './auth.service';
 import { DeviceInfo, id } from '@src/@types';
 import { Device, Public } from '@src/decorators';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from '@src/decorators/current-user';
 import { User } from '@src/models';
-import { LocalAuthGuard } from './guards';
-import { TokensService } from './tokens.service';
+import { LoginDto, LoginPayload, LoginService } from './login';
+import { LogoutDto, LogoutPayload, LogoutService } from './logout';
+import { RegisterService } from './register';
+import { RefreshTokenDto, RefreshTokenPayload, TokenService } from './token';
+import { LocalAuthGuard } from './common';
 
 @Resolver()
 export class AuthResolver {
     constructor(
-        private readonly authService: AuthService,
-        private readonly tokensService: TokensService,
+        private readonly loginService: LoginService,
+        private readonly logoutService: LogoutService,
+        private readonly registerService: RegisterService,
+        private readonly tokenService: TokenService,
     ) {}
 
     @Public()
     @UseGuards(LocalAuthGuard)
-    @Mutation(() => AuthPayload, {
+    @Mutation(() => LoginPayload, {
         name: 'login',
         description:
             'Authenticates users by validating their credentials and returning an access and refresh token.',
     })
-    public async signIn(
+    public async login(
         @CurrentUser() user: User,
         @Device() device: DeviceInfo,
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        @Args('input') _input: SignInDto,
-    ): Promise<AuthPayload> {
-        return this.authService.signIn(user.id, user.email, device);
+        @Args('input') _input: LoginDto,
+    ): Promise<LoginPayload> {
+        return this.loginService.login(user.id, user.email, device);
     }
 
     @Public()
@@ -48,19 +44,19 @@ export class AuthResolver {
     public async refresh(@Args('input') input: RefreshTokenDto): Promise<RefreshTokenPayload> {
         const { refreshToken } = input;
 
-        return await this.tokensService.generateAccessTokenFromRefreshToken(refreshToken);
+        return await this.tokenService.generateAccessTokenFromRefreshToken(refreshToken);
     }
 
-    @Mutation(() => SignOutPayload, {
+    @Mutation(() => LogoutPayload, {
         name: 'logout',
         description: 'Revokes the refresh token.',
     })
-    public async signOut(
+    public async logout(
         @CurrentUser('id') id: id,
-        @Args('input') input: SignOutDto,
-    ): Promise<SignOutPayload> {
+        @Args('input') input: LogoutDto,
+    ): Promise<LogoutPayload> {
         const { refreshToken } = input;
 
-        return await this.authService.signOut(id, refreshToken);
+        return await this.logoutService.logout(id, refreshToken);
     }
 }

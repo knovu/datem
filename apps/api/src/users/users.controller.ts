@@ -11,7 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { User } from '@src/models';
 import { id } from '@src/@types';
-import { EXCEPTION_CAUSE } from '@src/constants';
+import { ExceptionCause } from '@src/constants';
 import {
     UserDeleteInput,
     UserDeletePayload,
@@ -37,7 +37,7 @@ export class UsersController {
 
         if (!user) {
             throw new NotFoundException('User with the provided id not found.', {
-                cause: EXCEPTION_CAUSE.RESOURCE_NOT_FOUND,
+                cause: ExceptionCause.RESOURCE_NOT_FOUND,
             });
         }
 
