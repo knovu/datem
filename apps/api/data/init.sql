@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS Organizations;
 /* Creates tables in SQLite */
 CREATE TABLE Organizations (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    Name VARCHAR(256) NOT NULL UNIQUE,
+    Name VARCHAR(256) NOT NULL,
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -21,9 +21,6 @@ CREATE TABLE Users (
     OrganizationID INTEGER NOT NULL,
     CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    -- Enforce uniqueness for OrganizationID and ID of the user
-    CONSTRAINT unique_organization_user UNIQUE (OrganizationID, ID),
 
     -- Foreign keys
     FOREIGN KEY (OrganizationID) REFERENCES Organizations(ID) ON DELETE CASCADE

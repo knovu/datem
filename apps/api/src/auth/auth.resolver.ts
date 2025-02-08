@@ -6,7 +6,7 @@ import { CurrentUser } from '@src/decorators/current-user';
 import { User } from '@src/models';
 import { LoginDto, LoginPayload, LoginService } from './login';
 import { LogoutDto, LogoutPayload, LogoutService } from './logout';
-import { RegisterService } from './register';
+import { RegisterDto, RegisterPayload, RegisterService } from './register';
 import { RefreshTokenDto, RefreshTokenPayload, TokenService } from './token';
 import { LocalAuthGuard } from './common';
 
@@ -34,6 +34,18 @@ export class AuthResolver {
         @Args('input') _input: LoginDto,
     ): Promise<LoginPayload> {
         return this.loginService.login(user.id, user.email, device);
+    }
+
+    @Public()
+    @Mutation(() => RegisterPayload, {
+        name: 'register',
+        description: 'Registers a new user with their own organization.',
+    })
+    public async register(
+        @Device() device: DeviceInfo,
+        @Args('input') input: RegisterDto,
+    ): Promise<RegisterPayload> {
+        return this.registerService.register(input, device);
     }
 
     @Public()

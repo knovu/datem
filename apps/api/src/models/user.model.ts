@@ -1,7 +1,8 @@
 import { id } from '@src/@types';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 import { RefreshToken } from './refresh-token.model';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Organization } from './organization.model';
 
 @ObjectType()
 @Entity('Users')
@@ -74,4 +75,10 @@ export class User {
         cascade: true,
     })
     public refreshTokens: RefreshToken[];
+
+    @OneToOne(() => Organization, (organization) => organization.user, {
+        cascade: true,
+    })
+    @JoinColumn({ name: 'OrganizationID' })
+    public organization: Organization;
 }

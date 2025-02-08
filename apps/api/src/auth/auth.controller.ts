@@ -14,7 +14,7 @@ import { User } from '@src/models';
 import { ApiBearerAuth, ApiBody, ApiResponse } from '@nestjs/swagger';
 import { LoginDto, LoginPayload, LoginService } from './login';
 import { LogoutDto, LogoutPayload, LogoutService } from './logout';
-import { RegisterService } from './register';
+import { RegisterDto, RegisterPayload, RegisterService } from './register';
 import { LocalAuthGuard } from './common';
 import { RefreshTokenDto, RefreshTokenPayload, TokenService } from './token';
 
@@ -42,6 +42,20 @@ export class AuthController {
         @Device() device: DeviceInfo,
     ): Promise<LoginPayload> {
         return await this.loginService.login(user.id, user.email, device);
+    }
+
+    @Public()
+    @HttpCode(HttpStatus.OK)
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: BadRequestException })
+    @ApiBody({
+        type: RegisterDto,
+    })
+    @Post('register')
+    public async register(
+        @Body() body: RegisterDto,
+        @Device() device: DeviceInfo,
+    ): Promise<RegisterPayload> {
+        return await this.registerService.register(body, device);
     }
 
     @Public()

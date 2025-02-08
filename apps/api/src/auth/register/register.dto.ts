@@ -1,6 +1,7 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { AuthPayload } from '../common';
 
 @InputType()
 export class RegisterDto {
@@ -84,3 +85,6 @@ export class RegisterDto {
     @MaxLength(256)
     public organization: string;
 }
+
+@ObjectType()
+export class RegisterPayload extends AuthPayload {}

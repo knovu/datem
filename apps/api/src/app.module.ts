@@ -9,6 +9,7 @@ import { DatabaseModule, GqlModule } from './providers';
 import { AuthModule, JwtAuthGuard } from './auth';
 import { DeviceInfoMiddleware } from './middlewares';
 import { APP_GUARD } from '@nestjs/core';
+import { OrganizationsModule } from './organizations';
 
 @Module({
     imports: [
@@ -24,6 +25,7 @@ import { APP_GUARD } from '@nestjs/core';
         HealthModule,
         AuthModule,
         UsersModule,
+        OrganizationsModule,
     ],
     controllers: [AppController],
     providers: [

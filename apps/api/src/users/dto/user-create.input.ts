@@ -73,4 +73,15 @@ export class UserInput {
     @MinLength(1)
     @MaxLength(256)
     public phone?: string;
+
+    @Field({
+        description: 'The name of the organization for the user.',
+    })
+    @ApiProperty({
+        description: 'The name of the organization for the user.',
+    })
+    @IsString()
+    @MinLength(1)
+    @MaxLength(256)
+    public organization: string;
 }

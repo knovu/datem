@@ -1,5 +1,5 @@
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { User } from '@src/models';
+import { Args, ID, Mutation, Query, ResolveField, Resolver, Root } from '@nestjs/graphql';
+import { Organization, User } from '@src/models';
 import { UsersService } from './users.service';
 import { id } from '@src/@types';
 import {
@@ -12,10 +12,14 @@ import {
 import { NotFoundException } from '@nestjs/common';
 import { ExceptionCause } from '@src/constants';
 import { Public } from '@src/decorators';
+import { OrganizationsService } from '@src/organizations';
 
 @Resolver(() => User)
 export class UsersResolver {
-    constructor(private readonly usersService: UsersService) {}
+    constructor(
+        private readonly usersService: UsersService,
+        private readonly organizationsService: OrganizationsService,
+    ) {}
 
     @Mutation(() => User, {
         name: 'userCreate',
@@ -72,5 +76,14 @@ export class UsersResolver {
         @Args('input', { type: () => UserDeleteInput }) input: UserDeleteInput,
     ): Promise<UserDeletePayload> {
         return await this.usersService.delete(input);
+    }
+
+    @ResolveField(() => Organization, {
+        name: 'organization',
+    })
+    public async organization(@Root() user: User): Promise<Organization> {
+        const organization = await this.organizationsService.findOneByUserId(user.id);
+
+        return organization;
     }
 }

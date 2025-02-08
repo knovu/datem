@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CursorListResults, id } from '@src/@types';
-import { User } from '@src/models';
+import { Organization, User } from '@src/models';
 import { FindOptionsOrder, LessThan, MoreThan, Repository } from 'typeorm';
 import {
     UserConnectionArgs,
@@ -22,7 +22,7 @@ export class UsersService {
     ) {}
 
     public async create(input: UserInput): Promise<User> {
-        const { email, password, firstName, lastName, phone } = input;
+        const { email, password, firstName, lastName, phone, organization } = input;
 
         const existingUser = await this.findOneByEmail(email);
 
@@ -34,12 +34,16 @@ export class UsersService {
 
         const passwordHash = await this.createHash(password);
 
+        const org = new Organization();
+        org.name = organization;
+
         const user = new User();
         user.email = email;
         user.password = passwordHash;
         user.firstName = firstName;
         user.lastName = lastName;
         user.phone = phone;
+        user.organization = org;
 
         const createdUser = await this.userRepository.save(user).then(async (data) => {
             const user = await this.userRepository.findOne({
@@ -51,6 +55,12 @@ export class UsersService {
                     phone: true,
                     createdAt: true,
                     updatedAt: true,
+                    organization: {
+                        id: true,
+                        name: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
                 },
                 where: {
                     id: data.id,
