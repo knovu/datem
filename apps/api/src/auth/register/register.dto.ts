@@ -42,7 +42,7 @@ export class RegisterDto {
     @IsString({
         message: 'firstName is required',
     })
-    @MinLength(8)
+    @MinLength(1)
     @MaxLength(256)
     public firstName: string;
 
@@ -55,7 +55,7 @@ export class RegisterDto {
     @IsString({
         message: 'lastName is required',
     })
-    @MinLength(8)
+    @MinLength(1)
     @MaxLength(256)
     public lastName: string;
 
@@ -66,9 +66,9 @@ export class RegisterDto {
         description: 'The phone number of the user.',
     })
     @IsString({
-        message: 'password is required',
+        message: 'phoneNumber is required',
     })
-    @MinLength(8)
+    @MinLength(10)
     @MaxLength(256)
     public phoneNumber: string;
 
@@ -81,7 +81,7 @@ export class RegisterDto {
     @IsString({
         message: 'organization is required',
     })
-    @MinLength(8)
+    @MinLength(1)
     @MaxLength(256)
     public organization: string;
 }

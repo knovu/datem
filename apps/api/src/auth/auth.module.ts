@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
-import { AuthResolver } from './auth.resolver';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { RefreshToken } from '@src/models';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy, LocalStrategy } from './common';
 import { LoginService } from './login';
 import { LogoutService } from './logout';
 import { RegisterService } from './register';
 import { TokenService } from './token';
+import { AuthResolver } from './auth.resolver';
+import { JwtStrategy, LocalStrategy } from './common';
 
 @Module({
     imports: [

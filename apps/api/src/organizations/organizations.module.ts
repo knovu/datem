@@ -6,5 +6,6 @@ import { Organization } from '@src/models';
 @Module({
     imports: [TypeOrmModule.forFeature([Organization])],
     providers: [OrganizationsService],
+    exports: [OrganizationsService],
 })
 export class OrganizationsModule {}
