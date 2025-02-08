@@ -1,15 +1,13 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import { config } from './config';
-import { HealthModule } from './health';
-import { UsersModule } from './users';
-import { DatabaseModule, GqlModule } from './providers';
-import { AuthModule, JwtAuthGuard } from './auth';
-import { DeviceInfoMiddleware } from './middlewares';
 import { APP_GUARD } from '@nestjs/core';
+import { AuthModule, JwtAuthGuard } from './auth';
+import { config } from './config';
+import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule, GqlModule } from './providers';
+import { DeviceInfoMiddleware } from './middlewares';
+import { HealthModule } from './health';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { OrganizationsModule } from './organizations';
+import { UsersModule } from './users';
 
 @Module({
     imports: [
@@ -27,9 +25,7 @@ import { OrganizationsModule } from './organizations';
         UsersModule,
         OrganizationsModule,
     ],
-    controllers: [AppController],
     providers: [
-        AppService,
         {
             provide: APP_GUARD,
             useClass: JwtAuthGuard,
