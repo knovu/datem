@@ -11,7 +11,7 @@ import {
 } from './dto';
 import { NotFoundException } from '@nestjs/common';
 import { ExceptionCause } from '@src/constants';
-import { Public } from '@src/decorators';
+import { CurrentUser, Public } from '@src/decorators';
 import { OrganizationsService } from '@src/organizations';
 
 @Resolver(() => User)
@@ -31,8 +31,11 @@ export class UsersResolver {
     }
 
     @Query(() => User)
-    public async user(@Args('id', { type: () => ID }) id: id): Promise<User> {
-        const user = await this.usersService.findOneById(id);
+    public async user(
+        @CurrentUser('id') currentUserId: id,
+        @Args('id', { type: () => ID, nullable: true }) id?: id,
+    ): Promise<User> {
+        const user = await this.usersService.findOneById(id ? id : currentUserId);
 
         if (!user) {
             throw new NotFoundException('User with the provided id not found.', {
