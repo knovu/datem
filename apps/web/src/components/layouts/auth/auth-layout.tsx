@@ -13,14 +13,13 @@ const AuthLayout = () => {
             overflowY={'auto'}
             overflowX={'hidden'}
             justifyContent={'center'}
-            px={{ base: 4, sm: 12, md: 50 }}
             pb={5}>
             <Outlet />
 
             <Spacer flex={1} />
 
             {/* Footer */}
-            <HStack w="100%" justify={'space-between'}>
+            <HStack px={{ base: 4, sm: 12, md: 50 }} w="100%" justify={'space-between'}>
                 <Text>&copy; {CURRENT_YEAR} Jess Graham.</Text>
                 <Logo w={120} />
             </HStack>

@@ -11,16 +11,21 @@ export const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(
         const { children, onChange, ...rest } = props;
 
         const formatPhoneNumber = (value: string) => {
-            return value
-                .replace(/[^\d]/g, '') // Remove non-numeric characters
-                .replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'); // Format to xxx-xxx-xxxx
+            // Remove non-numeric characters
+            const cleaned = value.replace(/[^\d]/g, '');
+
+            // Apply progressive formatting
+            if (cleaned.length <= 3) return cleaned;
+            if (cleaned.length <= 6) return `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+            return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
         };
 
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const formattedValue = formatPhoneNumber(e.target.value);
             e.target.value = formattedValue;
+
             if (onChange) {
-                onChange(e);
+                return onChange(e);
             }
         };
 

@@ -22,11 +22,12 @@ const SignUp = () => {
                             <ProgressRoot
                                 w="100%"
                                 value={val.progress}
+                                shape="square"
                                 size="xs"
                                 colorPalette={'pink'}>
                                 <ProgressBar />
                             </ProgressRoot>
-                            <HStack w="100%">
+                            <HStack w="100%" px={{ base: 4, sm: 12, md: 50 }}>
                                 <IconButton
                                     onClick={() => {
                                         val.onResetState();

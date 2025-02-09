@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { Card, HStack, Icon, Input, VStack } from '@chakra-ui/react';
+import { Card, HStack, Icon, Input, Separator, Text, VStack } from '@chakra-ui/react';
 import { cx, dt } from '@src/utils';
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
@@ -44,67 +44,81 @@ const FirstName = () => {
             h="100%"
             w="100%"
             spaceY={5}>
-            <VStack align="start" spaceY={5}>
-                <HStack>
-                    <Button
-                        onClick={() => {
-                            ctx.onUpdateState('progress', PROGRESS_USERNAME);
-                            nav('/auth/sign-up/username');
-                        }}>
-                        <Icon as={LuArrowLeft} />
-                        Back
-                    </Button>
-                    <Button
-                        colorPalette={'pink'}
-                        onClick={() => {
-                            ctx.onResetState();
-                            nav('/auth/sign-in');
-                        }}>
-                        <Icon as={LuX} />
-                        Cancel
-                    </Button>
-                </HStack>
-                <Card.Root
-                    onSubmit={onFormSubmit}
-                    className={cx('first-name-form')}
-                    data-testid={dt('first-name-form')}
-                    variant={'elevated'}
-                    as="form">
-                    <Card.Header>
-                        <VStack>
-                            <Card.Title fontSize={'2xl'}>Type in your first name</Card.Title>
-                        </VStack>
-                    </Card.Header>
-                    <Card.Body>
-                        <Field
-                            required
-                            disabled={isSubmitting}
-                            invalid={!!errors.firstName}
-                            errorText={errors.firstName?.message}>
-                            <Input
-                                id="firstName"
-                                placeholder="Enter your first name"
-                                autoFocus
-                                size="xl"
-                                autoComplete="firstName"
-                                {...register('firstName')}
-                            />
-                        </Field>
-                    </Card.Body>
-                    <Card.Footer>
+            <Card.Root
+                w={{ sm: 400, md: 500, lg: 500 }}
+                onSubmit={onFormSubmit}
+                className={cx('first-name-form')}
+                data-testid={dt('first-name-form')}
+                variant={'elevated'}
+                as="form">
+                <Card.Header>
+                    <VStack>
+                        <Card.Title fontSize={'2xl'}>Type in your first name</Card.Title>
+                    </VStack>
+                </Card.Header>
+                <Card.Body>
+                    <Field
+                        required
+                        disabled={isSubmitting}
+                        invalid={!!errors.firstName}
+                        errorText={errors.firstName?.message}>
+                        <Input
+                            id="firstName"
+                            placeholder="Enter your first name"
+                            autoFocus
+                            size="xl"
+                            autoComplete="firstName"
+                            {...register('firstName')}
+                        />
+                    </Field>
+                </Card.Body>
+                <Card.Footer>
+                    <VStack w="100%">
                         <Button
+                            w="100%"
                             disabled={!isValid}
                             loading={isSubmitting}
                             type="submit"
-                            w="100%"
                             variant="solid"
                             size="xl"
                             colorPalette={'pink'}>
                             Next
                         </Button>
-                    </Card.Footer>
-                </Card.Root>
-            </VStack>
+
+                        <HStack w="100%">
+                            <Separator flex="1" />
+                            <Text flexShrink="0">or</Text>
+                            <Separator flex="1" />
+                        </HStack>
+
+                        <HStack w="100%">
+                            <Button
+                                flex={1}
+                                onClick={() => {
+                                    ctx.onUpdateState('progress', PROGRESS_USERNAME);
+                                    nav('/auth/sign-up/username');
+                                }}>
+                                <Icon as={LuArrowLeft} />
+                                Back
+                            </Button>
+                            <Button
+                                flex={1}
+                                colorPalette={'pink'}
+                                bgColor={'gray.400'}
+                                _hover={{
+                                    opacity: 0.7,
+                                }}
+                                onClick={() => {
+                                    ctx.onResetState();
+                                    nav('/auth/sign-in');
+                                }}>
+                                <Icon as={LuX} />
+                                Cancel
+                            </Button>
+                        </HStack>
+                    </VStack>
+                </Card.Footer>
+            </Card.Root>
         </VStack>
     );
 };

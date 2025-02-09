@@ -10,7 +10,8 @@ const SignIn = () => {
             data-testid={dt('sign-in')}
             h="100%"
             justify={'center'}
-            spaceY={5}>
+            spaceY={5}
+            px={{ base: 4, sm: 12, md: 50 }}>
             <Logo w={{ base: 200, sm: 200, md: 250 }} />
             <SignInForm />
         </VStack>
