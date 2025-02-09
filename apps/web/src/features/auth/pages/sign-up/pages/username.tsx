@@ -116,7 +116,10 @@ const Email = () => {
                                 px={2}
                                 py={1}
                                 colorPalette={'pink'}
-                                onClick={() => nav('/auth/sign-in')}>
+                                onClick={() => {
+                                    ctx.onResetState();
+                                    nav('/auth/sign-in');
+                                }}>
                                 Sign in
                             </Button>
                         </HStack>

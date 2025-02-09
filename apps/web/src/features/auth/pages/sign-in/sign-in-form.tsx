@@ -19,8 +19,10 @@ const schema = yup.object().shape({
 type FormValues = yup.InferType<typeof schema>;
 
 const SignInForm = () => {
-    const { signIn, error } = useSignIn();
-    const navigate = useNavigate();
+    const nav = useNavigate();
+    const { signIn, error } = useSignIn(() => {
+        nav('/app/dashboard');
+    });
 
     const {
         register,
@@ -37,10 +39,7 @@ const SignInForm = () => {
     const onFormSubmit = handleSubmit((data) => {
         const { username, password } = data;
 
-        return signIn(username, password).then(() => {
-            // Do something with the tokens here
-            navigate('/app/dashboard');
-        });
+        return signIn(username, password);
     });
 
     return (
@@ -114,7 +113,7 @@ const SignInForm = () => {
                             px={2}
                             py={1}
                             colorPalette={'pink'}
-                            onClick={() => navigate('/auth/sign-up/username')}>
+                            onClick={() => nav('/auth/sign-up/username')}>
                             Sign up
                         </Button>
                     </HStack>

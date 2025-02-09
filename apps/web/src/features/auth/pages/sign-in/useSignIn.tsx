@@ -18,7 +18,7 @@ type SignInVars = {
 };
 
 const SIGN_IN_GQL = gql`
-    mutation Login($input: SignInDto!) {
+    mutation Login($input: LoginDto!) {
         login(input: $input) {
             accessToken
             expiresIn
@@ -28,11 +28,12 @@ const SIGN_IN_GQL = gql`
     }
 `;
 
-const useSignIn = () => {
+const useSignIn = (onCompleted?: (data: SignInData) => void) => {
     const [mutation, { data, ...results }] = useMutation<SignInData, SignInVars>(SIGN_IN_GQL);
 
     const signIn = (username: string, password: string) =>
         mutation({
+            onCompleted,
             variables: {
                 input: {
                     username,
