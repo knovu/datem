@@ -40,7 +40,7 @@ const Organization = () => {
     return (
         <VStack
             className={cx('organization')}
-            data-testid={dt('last-organization')}
+            data-testid={dt('organization')}
             h="100%"
             w="100%"
             spaceY={5}>
