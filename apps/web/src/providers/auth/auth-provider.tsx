@@ -32,7 +32,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         <AuthContext.Provider value={{ user: data as User }}>
             {loading ? (
                 <VStack h="100vh" w="100%" align="center" justify="center">
-                    <Spinner />
+                    <Spinner color="pink.600" size="xl" />
                 </VStack>
             ) : (
                 children
