@@ -20,6 +20,7 @@ async function bootstrap() {
 
     app.enableVersioning({
         type: VersioningType.URI,
+        defaultVersion: '1',
     });
 
     app.enableCors({
@@ -45,7 +46,7 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, swaggerConfig);
 
-    SwaggerModule.setup('api-docs', app, document);
+    SwaggerModule.setup('docs', app, document);
 
     return await app.listen(port).then(() => app.getUrl());
 }
