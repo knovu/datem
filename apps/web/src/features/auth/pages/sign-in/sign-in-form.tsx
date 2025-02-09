@@ -20,7 +20,17 @@ type FormValues = yup.InferType<typeof schema>;
 
 const SignInForm = () => {
     const nav = useNavigate();
-    const { signIn, error } = useSignIn(() => {
+    const { signIn, error } = useSignIn((data) => {
+        const { login: payload } = data;
+        localStorage.setItem(
+            'auth',
+            JSON.stringify({
+                accessToken: payload.accessToken,
+                expiresIn: payload.expiresIn,
+                refreshToken: payload.refreshToken,
+                tokenType: payload.tokenType,
+            }),
+        );
         nav('/app/dashboard');
     });
 

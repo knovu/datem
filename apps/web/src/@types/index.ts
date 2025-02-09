@@ -11,3 +11,10 @@ export interface IConfig {
 }
 
 export type id = string | number;
+
+export interface AuthLocalStorage {
+    accessToken: string;
+    expiresIn: string;
+    refreshToken: string;
+    tokenType: 'Bearer';
+}
