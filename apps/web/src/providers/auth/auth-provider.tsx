@@ -9,7 +9,9 @@ interface AuthContextValue {
     user: User;
 }
 
-const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
+const AuthContext = createContext<AuthContextValue>({
+    user: {},
+} as AuthContextValue);
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
@@ -29,7 +31,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     const { data, loading } = useQueryUser();
 
     return (
-        <AuthContext.Provider value={{ user: data as User }}>
+        <AuthContext.Provider value={{ user: (data as User) || {} }}>
             {loading ? (
                 <VStack h="100vh" w="100%" align="center" justify="center">
                     <Spinner color="pink.600" size="xl" />

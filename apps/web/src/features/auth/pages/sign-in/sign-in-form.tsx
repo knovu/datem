@@ -1,11 +1,11 @@
 import { Card, HStack, Input, Link, Separator, Text, VStack } from '@chakra-ui/react';
 import { Button, Field, PasswordInput } from '@src/components';
 import { cx, dt } from '@src/utils';
-import useSignIn from './useSignIn';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router';
 import * as yup from 'yup';
+import { useSignIn } from '@src/providers';
 
 const schema = yup.object().shape({
     username: yup
@@ -23,7 +23,7 @@ const SignInForm = () => {
     const { signIn, error } = useSignIn((data) => {
         const { login: payload } = data;
         localStorage.setItem(
-            'auth',
+            'tokens',
             JSON.stringify({
                 accessToken: payload.accessToken,
                 expiresIn: payload.expiresIn,
@@ -101,7 +101,7 @@ const SignInForm = () => {
                     <Button
                         disabled={!isValid}
                         loading={isSubmitting}
-                        loadingText="Signing you in..."
+                        loadingText="Verifying email..."
                         type="submit"
                         w="100%"
                         variant="solid"

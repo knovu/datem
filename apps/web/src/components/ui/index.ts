@@ -11,6 +11,8 @@ import { PhoneInput } from './phone-input';
 
 export type { ThemeProviderProps } from './theme-provider';
 
+export * from './menu';
+
 export {
     Button,
     Field,

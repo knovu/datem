@@ -12,7 +12,7 @@ export interface IConfig {
 
 export type id = string | number;
 
-export interface AuthLocalStorage {
+export interface TokenStorage {
     accessToken: string;
     expiresIn: string;
     refreshToken: string;

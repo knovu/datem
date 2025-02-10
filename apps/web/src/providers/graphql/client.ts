@@ -3,7 +3,8 @@ import { onError } from '@apollo/client/link/error';
 import config from '@src/config';
 import { RestLink } from 'apollo-link-rest';
 import { setContext } from '@apollo/client/link/context';
-import { AuthLocalStorage } from '@src/@types';
+import { getAccessToken } from '@src/utils';
+import { isError } from 'lodash';
 
 // Log any GraphQL errors or network error that occurred
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -21,20 +22,27 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 // We really should store this as a cookie
 const authLink = setContext((_, { headers }) => {
-    const auth = localStorage.getItem('auth');
-    let accessToken: string | undefined = undefined;
+    try {
+        const accessToken = getAccessToken();
 
-    if (auth) {
-        const parsedAuthStorage: AuthLocalStorage = JSON.parse(auth);
-        accessToken = parsedAuthStorage.accessToken;
+        return {
+            headers: {
+                ...headers,
+                authorization: accessToken ? `Bearer ${accessToken}` : '',
+            },
+        };
+    } catch (err) {
+        const errorMessage: string = isError(err)
+            ? err.message
+            : 'Unknown error occurred when setting authorization header.';
+
+        // eslint-disable-next-line no-console
+        console.error(errorMessage);
+
+        return {
+            headers,
+        };
     }
-
-    return {
-        headers: {
-            ...headers,
-            authorization: accessToken ? `Bearer ${accessToken}` : '',
-        },
-    };
 });
 
 const restLink = new RestLink({

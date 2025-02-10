@@ -1,4 +1,4 @@
-import { Env } from '../@types';
+import { Env, TokenStorage } from '../@types';
 
 /**
  * Converts a given string value to a valid port number.
@@ -65,3 +65,37 @@ export const toEnv = (value: any): Env => {
 export const cx = (...classNames: string[]) => classNames.map((str) => `datem-${str}`).join(' ');
 
 export const dt = (testId: string) => `datem-testId-${testId}`;
+
+export const getAccessToken = (): string => {
+    const tokenStorage = localStorage.getItem('tokens');
+
+    if (!tokenStorage) {
+        throw new Error('`tokens` object was not found within the local storage.');
+    }
+
+    const parsedTokens = JSON.parse(tokenStorage) as Partial<TokenStorage>;
+    const accessToken: string | undefined = parsedTokens.accessToken;
+
+    if (!accessToken) {
+        throw new Error('`accessToken` was not found in local storage. Was it set properly?');
+    }
+
+    return accessToken;
+};
+
+export const getRefreshToken = (): string => {
+    const tokenStorage = localStorage.getItem('tokens');
+
+    if (!tokenStorage) {
+        throw new Error('`tokens` object was not found within the local storage.');
+    }
+
+    const parsedTokens = JSON.parse(tokenStorage) as Partial<TokenStorage>;
+    const refreshToken: string | undefined = parsedTokens.refreshToken;
+
+    if (!refreshToken) {
+        throw new Error('`refreshToken` was not found in local storage. Was it set properly?');
+    }
+
+    return refreshToken;
+};
