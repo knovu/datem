@@ -20,7 +20,7 @@ type FormValues = yup.InferType<typeof schema>;
 
 const SignInForm = () => {
     const nav = useNavigate();
-    const { signIn, error } = useSignIn((data) => {
+    const { signIn, loading, error } = useSignIn((data) => {
         const { login: payload } = data;
         localStorage.setItem(
             'tokens',
@@ -45,6 +45,8 @@ const SignInForm = () => {
             password: '',
         },
     });
+
+    const isLoading = isSubmitting || loading;
 
     const onFormSubmit = handleSubmit((data) => {
         const { username, password } = data;
@@ -75,7 +77,7 @@ const SignInForm = () => {
                     <Field
                         label="Username"
                         required
-                        disabled={isSubmitting}
+                        disabled={isLoading}
                         invalid={!!errors.username}
                         errorText={errors.username?.message}>
                         <Input
@@ -89,6 +91,7 @@ const SignInForm = () => {
                     <Field
                         label="Password"
                         required
+                        disabled={isLoading}
                         invalid={!!errors.password}
                         errorText={errors.password?.message}>
                         <PasswordInput id="password" size="xl" {...register('password')} />
@@ -100,7 +103,7 @@ const SignInForm = () => {
                 <VStack w="100%" align="start">
                     <Button
                         disabled={!isValid}
-                        loading={isSubmitting}
+                        loading={isLoading}
                         loadingText="Verifying email..."
                         type="submit"
                         w="100%"
@@ -108,6 +111,19 @@ const SignInForm = () => {
                         size="xl"
                         colorPalette={'pink'}>
                         Sign in
+                    </Button>
+
+                    <Button
+                        disabled={isLoading}
+                        w="100%"
+                        variant="outline"
+                        size="xl"
+                        colorPalette={'pink'}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            return signIn('a+test@knovu.com', 'Testing1234');
+                        }}>
+                        Test Account
                     </Button>
 
                     <HStack w="100%">
@@ -119,6 +135,7 @@ const SignInForm = () => {
                     <HStack fontSize="sm">
                         <Text>Don't have an account?</Text>
                         <Button
+                            disabled={isLoading}
                             variant="ghost"
                             px={2}
                             py={1}

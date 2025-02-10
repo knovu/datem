@@ -99,3 +99,15 @@ export const getRefreshToken = (): string => {
 
     return refreshToken;
 };
+
+export const clearTokenStorage = (): boolean => {
+    let isCleared: boolean = false;
+    const tokenStorage = localStorage.getItem('tokens');
+
+    if (tokenStorage) {
+        localStorage.removeItem('tokens');
+        isCleared = true;
+    }
+
+    return isCleared;
+};

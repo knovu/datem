@@ -28,7 +28,7 @@ const LayoutHeader = () => {
 
             switch (value) {
                 case 'settings': {
-                    nav('/app/settings/account');
+                    nav('/app/settings');
                     break;
                 }
                 case 'logout': {
