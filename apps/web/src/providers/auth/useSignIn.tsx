@@ -29,7 +29,7 @@ const SIGN_IN_GQL = gql`
 `;
 
 export const useSignIn = (onCompleted?: (data: SignInData) => void) => {
-    const [mutation, { data, ...results }] = useMutation<SignInData, SignInVars>(SIGN_IN_GQL);
+    const [mutation, { ...results }] = useMutation<SignInData, SignInVars>(SIGN_IN_GQL);
 
     const signIn = (username: string, password: string) =>
         mutation({
@@ -45,6 +45,5 @@ export const useSignIn = (onCompleted?: (data: SignInData) => void) => {
     return {
         ...results,
         signIn,
-        data: data?.login ?? undefined,
     };
 };

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router';
 import * as yup from 'yup';
-import { useSignIn } from '@src/providers';
+import { tokenStorage, useSignIn } from '@src/providers';
 
 const schema = yup.object().shape({
     username: yup
@@ -22,15 +22,14 @@ const SignInForm = () => {
     const nav = useNavigate();
     const { signIn, loading, error } = useSignIn((data) => {
         const { login: payload } = data;
-        localStorage.setItem(
-            'tokens',
-            JSON.stringify({
-                accessToken: payload.accessToken,
-                expiresIn: payload.expiresIn,
-                refreshToken: payload.refreshToken,
-                tokenType: payload.tokenType,
-            }),
-        );
+
+        tokenStorage.setState({
+            accessToken: payload.accessToken,
+            expiresIn: payload.expiresIn,
+            refreshToken: payload.refreshToken,
+            tokenType: payload.tokenType,
+        });
+
         nav('/app/dashboard');
     });
 
@@ -60,7 +59,8 @@ const SignInForm = () => {
             className={cx('sign-in-form')}
             data-testid={dt('sign-in-form')}
             variant={'elevated'}
-            as="form">
+            as="form"
+            size={{ base: 'sm', sm: 'md' }}>
             <Card.Header>
                 <Card.Title fontSize={'2xl'}>Sign in</Card.Title>
                 <Card.Description fontSize={'lg'}>
@@ -104,7 +104,7 @@ const SignInForm = () => {
                     <Button
                         disabled={!isValid}
                         loading={isLoading}
-                        loadingText="Verifying email..."
+                        loadingText="Signing you in..."
                         type="submit"
                         w="100%"
                         variant="solid"

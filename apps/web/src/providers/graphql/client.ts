@@ -3,8 +3,8 @@ import { onError } from '@apollo/client/link/error';
 import config from '@src/config';
 import { RestLink } from 'apollo-link-rest';
 import { setContext } from '@apollo/client/link/context';
-import { getAccessToken } from '@src/utils';
 import { isError } from 'lodash';
+import { tokenStorage } from '../auth';
 
 // Log any GraphQL errors or network error that occurred
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -23,7 +23,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 // We really should store this as a cookie
 const authLink = setContext((_, { headers }) => {
     try {
-        const accessToken = getAccessToken();
+        const accessToken = tokenStorage.accessToken;
 
         return {
             headers: {

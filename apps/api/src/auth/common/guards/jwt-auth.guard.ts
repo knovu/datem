@@ -20,13 +20,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
             return true;
         }
 
-        console.log('JwtAuthGuard.canActivate');
-
         return super.canActivate(context);
     }
 
     public getRequest(context: ExecutionContext): any {
-        console.log('JwtAuthGuard.getRequest');
         const request = getRequestFromContext(context);
         return request;
     }

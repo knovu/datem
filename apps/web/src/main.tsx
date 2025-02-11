@@ -4,10 +4,13 @@ import { ThemeProvider } from './components';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router';
 import AppRoutes from './routes';
-import { GraphQLProvider } from './providers';
+import { GraphQLProvider, tokenStorage } from './providers';
 
 // Custom fonts
 import '@fontsource-variable/outfit/index.css';
+
+// Initializes the local token storage
+tokenStorage.init();
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>

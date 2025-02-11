@@ -71,10 +71,11 @@ const Email = () => {
                 className={cx('username-form')}
                 data-testid={dt('username-form')}
                 variant={'elevated'}
-                as="form">
+                as="form"
+                size={{ base: 'sm', sm: 'md' }}>
                 <Card.Header>
                     <VStack>
-                        <Card.Title fontSize={'2xl'}>
+                        <Card.Title fontSize={'2xl'} textAlign={'center'}>
                             Let's get you an account, start by typing in your email
                         </Card.Title>
                     </VStack>
@@ -100,7 +101,7 @@ const Email = () => {
                         <Button
                             disabled={!isValid}
                             loading={isSubmitting}
-                            loadingText="Signing you in..."
+                            loadingText="Verifying email..."
                             type="submit"
                             w="100%"
                             variant="solid"
