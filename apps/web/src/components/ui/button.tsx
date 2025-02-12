@@ -34,7 +34,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
     );
 
     if (tooltip) {
-        return <Tooltip content={tooltip}>{button}</Tooltip>;
+        return (
+            <Tooltip
+                content={tooltip}
+                openDelay={200}
+                closeDelay={0}
+                positioning={{ placement: 'bottom' }}>
+                {button}
+            </Tooltip>
+        );
     }
 
     return button;

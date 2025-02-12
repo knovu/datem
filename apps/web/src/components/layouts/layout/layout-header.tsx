@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import {
     Avatar,
-    Button,
     HStack,
     MenuSelectionDetails,
     Spacer,
@@ -11,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { cx, dt } from '@src/utils';
 import { LogoIcon } from '@src/components/logo';
-import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from '@src/components/ui';
+import { Button, MenuContent, MenuItem, MenuRoot, MenuTrigger } from '@src/components/ui';
 import { useAuth, useSignOut } from '@src/providers';
 import { useNavigate } from 'react-router';
 

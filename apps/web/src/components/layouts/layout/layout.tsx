@@ -3,6 +3,7 @@ import { cx, dt } from '@src/utils';
 import { Outlet } from 'react-router';
 import LayoutHeader from './layout-header';
 import LayoutContent from './layout-content';
+import LayoutSideBar from './layout-sidebar';
 
 const Layout = () => {
     return (
@@ -14,7 +15,8 @@ const Layout = () => {
             overflowX={'hidden'}>
             <VStack gap={0} w="100%" h="100%">
                 <LayoutHeader />
-                <HStack w="100%" h="100%">
+                <HStack w="100%" h="100%" gap={0}>
+                    <LayoutSideBar />
                     <LayoutContent>
                         <Outlet />
                     </LayoutContent>
