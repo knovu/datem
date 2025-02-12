@@ -3,7 +3,7 @@ import { cx, dt } from '@src/utils';
 import { Outlet } from 'react-router';
 import LayoutHeader from './layout-header';
 import LayoutContent from './layout-content';
-import LayoutSideBar from './layout-sidebar';
+import { LayoutSideBar } from './layout-sidebar';
 
 const Layout = () => {
     return (
