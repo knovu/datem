@@ -53,7 +53,12 @@ const LayoutHeader = () => {
                 pos={'relative'}
                 px={4}>
                 <HStack h="100%">
-                    <LogoIcon w={45} />
+                    <LogoIcon
+                        w={45}
+                        onClick={() => nav('/app/dashboard')}
+                        _hover={{ opacity: 0.9 }}
+                        cursor={'pointer'}
+                    />
                 </HStack>
 
                 <Spacer flex={1} h="100%" />
@@ -67,11 +72,12 @@ const LayoutHeader = () => {
                         }}>
                         <MenuTrigger asChild>
                             <Button
+                                size="sm"
                                 variant="plain"
                                 _hover={{ opacity: 0.7 }}
                                 w={'fit-content'}
                                 p={0}>
-                                <Avatar.Root color="pink.500" bgColor="pink.200">
+                                <Avatar.Root size="sm" color="pink.500" bgColor="pink.200">
                                     <Avatar.Fallback name={user ? user.firstName : undefined} />
                                 </Avatar.Root>
                             </Button>
