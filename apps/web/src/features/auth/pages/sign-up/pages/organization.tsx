@@ -50,7 +50,8 @@ const Organization = () => {
                 className={cx('organization-form')}
                 data-testid={dt('organization-form')}
                 variant={'elevated'}
-                as="form">
+                as="form"
+                size={{ base: 'sm', sm: 'md' }}>
                 <Card.Header>
                     <VStack>
                         <Card.Title fontSize={'2xl'}>Type in your organization</Card.Title>

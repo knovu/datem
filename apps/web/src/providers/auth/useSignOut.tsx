@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@src/hooks';
-import { clearTokenStorage, getRefreshToken } from '@src/utils';
+import { tokenStorage } from './token-storage';
 
 type SignOutData = {
     logout: {
@@ -26,7 +26,7 @@ export const useSignOut = (onCompleted?: (data: SignOutData) => void) => {
     const [mutation, { data, ...results }] = useMutation<SignOutData, SignOutVars>(SIGN_OUT_GQL);
 
     const signOut = () => {
-        const refreshToken = getRefreshToken();
+        const refreshToken = tokenStorage.refreshToken;
 
         mutation({
             onCompleted: (data) => {
@@ -35,7 +35,7 @@ export const useSignOut = (onCompleted?: (data: SignOutData) => void) => {
                 }
 
                 // Clear the local storage tokens
-                clearTokenStorage();
+                tokenStorage.clear();
 
                 return;
             },

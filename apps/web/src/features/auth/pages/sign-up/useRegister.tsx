@@ -32,8 +32,8 @@ const REGISTER_GQL = gql`
     }
 `;
 
-const useRegister = (onCompleted?: (data?: RegisterData | null) => void) => {
-    const [mutation, { data, ...results }] = useMutation<RegisterData, RegisterVars>(REGISTER_GQL, {
+const useRegister = (onCompleted?: (data: RegisterData) => void) => {
+    const [mutation, { ...results }] = useMutation<RegisterData, RegisterVars>(REGISTER_GQL, {
         onCompleted,
     });
 
@@ -61,7 +61,6 @@ const useRegister = (onCompleted?: (data?: RegisterData | null) => void) => {
     return {
         ...results,
         register,
-        data: data?.register ?? undefined,
     };
 };
 

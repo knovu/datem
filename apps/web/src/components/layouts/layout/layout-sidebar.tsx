@@ -1,55 +1,92 @@
-import { Box, HStack, List, Separator, Spacer, Text, VStack } from '@chakra-ui/react';
+import { Box, HStack, Icon, List, Spacer, Text, VStack } from '@chakra-ui/react';
 import { Logo } from '@src/components/logo';
+import { Button } from '@src/components/ui';
 import { cx, dt } from '@src/utils';
-import { useState } from 'react';
-import { GoDotFill } from 'react-icons/go';
+import { forwardRef, useCallback } from 'react';
+import { BsCircleFill } from 'react-icons/bs';
+import { Link, To, useLocation, useNavigate } from 'react-router';
 
-const LayoutSideBar = () => {
-    const [selectedListItem, setSelectedMenuItem] = useState<string>();
+interface LayoutSideBarMenuItemProps {
+    label?: string;
+    active?: boolean;
+    path?: To;
+}
 
+const LayoutSideBarMenuItem = forwardRef<HTMLLIElement, LayoutSideBarMenuItemProps>(
+    (props, ref) => {
+        const { label = 'Unknown', path } = props;
+        const location = useLocation();
+        const nav = useNavigate();
+        const isActive = location.pathname === path;
+
+        const handleOnNavigate = useCallback(() => {
+            if (!path) {
+                throw new Error(
+                    'Expected path to route to link, but got undefined. Did you forget to set it?',
+                );
+            }
+
+            nav(path);
+        }, [nav, path]);
+
+        return (
+            <List.Item ref={ref} w="100%">
+                <Button w="100%" asChild onClick={handleOnNavigate}>
+                    <Link to={String(path)}>
+                        <Icon fontSize={'5px'}>
+                            <BsCircleFill />
+                        </Icon>
+                        <Text>{label}</Text>
+                    </Link>
+                </Button>
+            </List.Item>
+        );
+    },
+);
+
+export const LayoutSideBar = () => {
     return (
         <Box
-            className={cx('layout-content')}
-            data-testid={dt('layout-content')}
-            w={'300px'}
-            h={'100%'}
-            bgColor={'gray.100'}
-            borderRightWidth={1}>
-            <VStack w="100%" h="100%">
-                <List.Root>
-                    <List.Item value={'DOGGGGGGGGGGGGGG'} as={HStack} gap={0}>
-                        <List.Indicator asChild color="green.500">
-                            <GoDotFill />
-                        </List.Indicator>
-                        Dashboard
-                    </List.Item>
-                    <List.Item as={HStack} gap={0}>
-                        <List.Indicator asChild color="green.500">
-                            <GoDotFill />
-                        </List.Indicator>
-                        Dashboard
-                    </List.Item>
+            className={cx('layout-sidebar')}
+            data-testid={dt('layout-sidebar')}
+            w={300}
+            h="100%"
+            borderRightWidth={1}
+            borderRightColor={'gray.300'}
+            bgColor={'gray.100'}>
+            <VStack
+                className={cx('layout-sidebar-wrapper')}
+                data-testid={dt('layout-sidebar-wrapper')}
+                pt={5}
+                w="100%"
+                h="100%">
+                <List.Root
+                    className={cx('layout-sidebar-menu')}
+                    data-testid={dt('layout-sidebar-menu')}
+                    w="100%"
+                    display="flex"
+                    align="center"
+                    flexDir={'column'}
+                    gapY={2}>
+                    <LayoutSideBarMenuItem label="Dashboard" path="/app/dashboard" />
+                    <LayoutSideBarMenuItem label="Settings" path="/app/settings" />
                 </List.Root>
-
-                <Separator w="75%" />
 
                 <Spacer flex={1} />
 
                 <HStack
-                    bgColor={'gray.100'}
-                    h={50}
-                    gap={5}
-                    borderTopWidth={1}
+                    className={cx('layout-sidebar-footer')}
+                    data-testid={dt('layout-sidebar-footer')}
                     w="100%"
-                    justify={'center'}>
+                    h={50}
+                    borderTopWidth={1}
+                    borderTopColor={'gray.300'}
+                    justify={'space-between'}
+                    px={4}>
                     <Logo w={100} />
-                    <Text fontSize={14} color={'gray.400'}>
-                        Version: 0.0.1
-                    </Text>
+                    <Text color={'gray.500'}>Version: v0.0.1</Text>
                 </HStack>
             </VStack>
         </Box>
     );
 };
-
-export default LayoutSideBar;

@@ -10,6 +10,7 @@ import { LuArrowLeft, LuX } from 'react-icons/lu';
 import { PROGRESS_ORGANIZATION } from '@src/constants';
 import { BiCheckCircle, BiXCircle } from 'react-icons/bi';
 import useRegister from '../useRegister';
+import { tokenStorage } from '@src/providers';
 
 const schema = yup.object().shape({
     password: yup.string().min(1, 'Password is required').required(),
@@ -21,9 +22,19 @@ type FormValues = yup.InferType<typeof schema>;
 const Password = () => {
     const ctx = useSignUp();
     const nav = useNavigate();
-    const signUp = useRegister(() => {
-        // Clear all state and local storage
+    const signUp = useRegister((data) => {
+        const { register: payload } = data;
+
+        tokenStorage.setState({
+            accessToken: payload.accessToken,
+            expiresIn: payload.expiresIn,
+            refreshToken: payload.refreshToken,
+            tokenType: payload.tokenType,
+        });
+
+        // Clear all state and local storage for sign up values
         ctx.onResetState();
+
         toaster.success({
             title: 'Success',
             description: 'Account has been created!',
@@ -85,7 +96,8 @@ const Password = () => {
                 className={cx('password-form')}
                 data-testid={dt('password-form')}
                 variant={'elevated'}
-                as="form">
+                as="form"
+                size={{ base: 'sm', sm: 'md' }}>
                 <Card.Header>
                     <VStack>
                         <Card.Title fontSize={'2xl'}>Type in your password</Card.Title>

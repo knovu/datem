@@ -50,7 +50,8 @@ const PhoneNumber = () => {
                 className={cx('phone-number-form')}
                 data-testid={dt('phone-number-form')}
                 variant={'elevated'}
-                as="form">
+                as="form"
+                size={{ base: 'sm', sm: 'md' }}>
                 <Card.Header>
                     <VStack>
                         <Card.Title fontSize={'2xl'}>Type in your phone number</Card.Title>

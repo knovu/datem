@@ -50,7 +50,8 @@ const FirstName = () => {
                 className={cx('first-name-form')}
                 data-testid={dt('first-name-form')}
                 variant={'elevated'}
-                as="form">
+                as="form"
+                size={{ base: 'sm', sm: 'md' }}>
                 <Card.Header>
                     <VStack>
                         <Card.Title fontSize={'2xl'}>Type in your first name</Card.Title>

@@ -12,13 +12,6 @@ export interface IConfig {
 
 export type id = string | number;
 
-export interface TokenStorage {
-    accessToken: string;
-    expiresIn: string;
-    refreshToken: string;
-    tokenType: 'Bearer';
-}
-
 export interface Organization {
     id: id;
     name: string;
